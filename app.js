@@ -4,7 +4,7 @@ const passport = require('passport');
 const app = express()
 const dotenv = require('dotenv')
 dotenv.config()
-//DB connection
+//DB Connection
 require('./models/db')
 
 // Middleware
