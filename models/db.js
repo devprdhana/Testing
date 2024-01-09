@@ -5,7 +5,7 @@ dotenv.config();
 const connectDb = () => {
   mongoose
     .connect(
-      `mongodb+srv://wunderux:${process.env.MONGODB_PASSWORD}@cluster0.j5bpr7p.mongodb.net/?retryWrites=true&w=majorityy`,{
+      `mongodb+srv://wunderux:${process.env.MONGODB_PASSWORD}@cluster0.j5bpr7p.mongodb.net/?retryWrites=true`,{
         useNewUrlParser: true,
         useUnifiedTopology: true,
         serverSelectionTimeoutMS: 5000, // Set a higher value than the default 30000 (30 seconds)
