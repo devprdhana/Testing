@@ -1,6 +1,10 @@
 const express = require('express')
-const userRouter = require('./routes/user-routes')
+const userRouter = require('./routes/user-routes');
+const passport = require('passport');
 const app = express()
+const dotenv = require('dotenv')
+dotenv.config()
+//DB connection
 require('./models/db')
 
 // Middleware

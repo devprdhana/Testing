@@ -1,40 +1,9 @@
-const passport = require("passport");
 const User = require("../models/User");
 const dotenv = require('dotenv')
+const bcryptjs = require('bcryptjs')
 dotenv.config()
 
 
-const getDate = async(req,res)=>{
-    res.status(200).json({date:"MY date"})
-}
-
-const getUser = async(req,res)=>{
-    // res.status(200).json({message:"Hii i am here...."})
-    passport.authenticate("google",{
-        successRedirect:process.env.CLIENT_URL,
-        failureRedirect:"/login/failed"
-    })
-}
-
-const loginFailed = (req,res,next)=>{
-    res.status(401).json({error:true,message:"Login Failure"})
-}
-
-const loginSuccess = (req,res)=>{
-    if(req.user){
-        res.status(200).json({
-            error:false,
-            message:"Login Successful",
-            user:req.user
-        })
-    }else{
-        res.status(403).json({error:true,message:"Not Authorized"})
-    }
-}
-
-const getData = (req,res)=>{
-    passport.authenticate("google",["profile","email"])
-}
 
 const userSignup = async(req,res)=>{
     const {email,password,userName,firstName,lastName,profilePicture,tools} = req.body
@@ -48,9 +17,11 @@ const userSignup = async(req,res)=>{
         console.log("User already exists")
     }
     let user;
+
+    const hashedPassword = bcryptjs.hashSync(password)
     try{
         user = User({
-            email,password
+            email,password:hashedPassword,userName,firstName,lastName,profilePicture,tools
         })
         user = await user.save()
     }catch(err){
@@ -60,14 +31,46 @@ const userSignup = async(req,res)=>{
     if(!user){
         res.status(500).json({message:"Unexpected error"})
     }
-    res.status(201).json({user})
+    res.status(201).json({message:"Signup successfull",user})
 }
 
-// const oauthWithGoogle = ()
 
-exports.getUser = getUser
+const loginUser = async(req,res)=>{
+    const {email,password} = req.body
+    let existingUser;
+    try{
+        existingUser = await User.findOne({email})
+    }catch(err){
+        console.log(err)
+    }
+
+    if(!existingUser){
+        res.status(404).json({message:"User not found"})
+    }
+
+    const correctPassword = bcryptjs.compareSync(password,existingUser.password)
+
+    if(correctPassword){
+        res.status(200).json({message:"Login Successfull"})
+    }
+}
+
+
+const getUserById = async(req,res)=>{
+    const {id} = req.params
+    let user;
+    try{
+        user = await User.findById({_id:id})
+    }catch(err){
+        console.log(err)
+    }
+
+    if(!user){
+        res.status(500).json({message:"Internal sever error"})
+    }
+    res.status(200).json(user)
+}
+
 exports.userSignup = userSignup
-exports.loginSuccess = loginSuccess
-exports.loginFailed = loginFailed
-exports.getData = getData
-exports.getDate = getDate
+exports.loginUser = loginUser
+exports.getUserById = getUserById

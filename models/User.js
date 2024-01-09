@@ -30,6 +30,10 @@ const userSchema = new Schema({
     },
     tools:[{
         type:String
+    }],
+    proofofWork:[{
+        type:mongoose.Types.ObjectId,
+        ref:"Work"
     }]
 })
 

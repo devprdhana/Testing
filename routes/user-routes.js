@@ -1,13 +1,10 @@
 const express = require('express')
-const { getUser, userSignup, loginFailed, loginSuccess, getDate } = require('../controllers/user-controller')
+const { userSignup, loginUser, getUserById } = require('../controllers/user-controller')
 
 const userRouter = express.Router()
 
-userRouter.get('/auth/google/callback',getUser)
-userRouter.get('/login/failed',loginFailed)
-userRouter.get('/login/success',loginSuccess)
 userRouter.post('/auth',userSignup)
-userRouter.get("/date",getDate)
-// userRouter.get
+userRouter.post('/autho',loginUser)
+userRouter.get('/:id',getUserById)
 
 module.exports = userRouter
