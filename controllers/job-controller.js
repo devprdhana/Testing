@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Job = require("../models/Job");
 
 const postJob = async (req, res, next) => {
@@ -85,8 +86,32 @@ const getJobBySkill = async(req,res,next)=>{
 
   res.status(200).json(filteredJobs)
 } 
+const updateJob = async (req, res, next) => {
+  const {jobId} = req.params; 
+  const updateData = req.body; 
+  let updatedJob;
+  try {
+    // if (!mongoose.Types.ObjectId.isValid(jobId)) {
+    //   return res.status(400).json({ error: 'Invalid job ID' });
+    // }
+
+    updatedJob = await Job.findByIdAndUpdate(jobId, updateData, { new: true });
+    console.log(updatedJob)
+  
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+
+  if (!updatedJob) {
+    return res.status(404).json({ error: 'Job not found' });
+  }
+
+  res.status(200).json(updatedJob);
+};
 
 
-exports.postJob = postJob
-exports.getJobById = getJobById
-exports.getJobBySkill = getJobBySkill
+exports.postJob = postJob;
+exports.getJobById = getJobById;
+exports.getJobBySkill = getJobBySkill;
+exports.updateJob = updateJob;
