@@ -4,6 +4,7 @@ const passport = require('passport');
 const app = express()
 const dotenv = require('dotenv')
 const workRouter = require("./routes/work-routes");
+const clientRouter = require('./routes/client-routes');
 dotenv.config()
 //DB Connection
 require('./models/db')
@@ -12,6 +13,7 @@ require('./models/db')
 app.use(express.json())
 app.use('/',userRouter)
 app.use('/works',workRouter)
+app.use('/client',clientRouter)
 //Server listing
 app.listen(8080,(err)=>{
     if(err){
