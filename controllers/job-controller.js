@@ -129,3 +129,5 @@ const updateJob = async (req, res, next) => {
 exports.postJob = postJob
 exports.getJobById = getJobById
 exports.getJobBySkill = getJobBySkill
+exports.getAllJobs = getAllJobs
+exports.updateJob = updateJob
