@@ -70,7 +70,17 @@ const getUserById = async(req,res)=>{
     }
     res.status(200).json(user)
 }
-
+const getAllUsers = async (req, res) => {
+    let users;
+    try {
+        users = await User.find();
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+    res.status(200).json(users);
+}
 exports.userSignup = userSignup
 exports.loginUser = loginUser
 exports.getUserById = getUserById
+exports.getAllUsers=getAllUsers
