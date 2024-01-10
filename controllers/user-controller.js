@@ -70,7 +70,42 @@ const getUserById = async(req,res)=>{
     }
     res.status(200).json(user)
 }
+const getAllUsers = async (req, res) => {
+    let users;
+    try {
+        users = await User.find();
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+    res.status(200).json(users);
+}
 
+const getUserBySkills = async(req,res,next)=>{
+    const {skills} = req.body
+    let users;
+    try{
+        users = await User.find()
+    }catch(err){
+        console.log(err)
+    }
+     if(!users){
+        res.status(404).json({message:"No users found"})
+     }
+
+     const filterUserBySkills = (users,skills)=>{
+        return users.filter(user=>{
+            const userSkills = user.tools || []
+            return skills.some(skill=>userSkills.includes(skill))
+        })
+     }
+
+     const filteredUsers = filterUserBySkills(users,skills)
+     console.log(filteredUsers)
+     res.status(200).json(filteredUsers)
+}
 exports.userSignup = userSignup
 exports.loginUser = loginUser
 exports.getUserById = getUserById
+exports.getAllUsers=getAllUsers
+exports.getUserBySkills = getUserBySkills

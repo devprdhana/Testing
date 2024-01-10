@@ -86,7 +86,23 @@ const getJobBySkill = async(req,res,next)=>{
   res.status(200).json(filteredJobs)
 } 
 
+const getAllJobs = async(req,res)=>{
+  let jobs;
+  try{
+    jobs = await Job.find()
+  }catch(err){
+    console.log(err)
+  }
+  if(!jobs){
+    res.status(500).json({message:"Internal server error"})
+  }else{
+    res.status(200).json(jobs)
+  }
+  
+}
+
 
 exports.postJob = postJob
 exports.getJobById = getJobById
 exports.getJobBySkill = getJobBySkill
+exports.getAllJobs = getAllJobs

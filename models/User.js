@@ -38,6 +38,9 @@ const userSchema = new Schema({
     appliedJobs:[{
         type:mongoose.Types.ObjectId,
         ref:"Job"
+    }],
+    userLocation:[{
+        type:String
     }]
 })
 
