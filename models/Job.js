@@ -10,6 +10,9 @@ const jobSchema = new Schema({
     jobDescription:{
         type:String
     },
+    requiredSkills:[{
+        type:String
+    }],
     paymentOneTime:{
         type:Boolean
     },
@@ -23,10 +26,12 @@ const jobSchema = new Schema({
         type:String
     }],
     client:{
-        type:mongoose.Types.ObjectId
+        type:mongoose.Types.ObjectId,
+        ref:"Client"
     },
     appliedUsers:[{
-        type:mongoose.Types.ObjectId
+        type:mongoose.Types.ObjectId,
+        ref:"User"
     }]
 })
 

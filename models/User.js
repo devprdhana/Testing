@@ -34,6 +34,10 @@ const userSchema = new Schema({
     proofofWork:[{
         type:mongoose.Types.ObjectId,
         ref:"Work"
+    }],
+    appliedJobs:[{
+        type:mongoose.Types.ObjectId,
+        ref:"Job"
     }]
 })
 
