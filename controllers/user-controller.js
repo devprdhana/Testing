@@ -60,7 +60,7 @@ const getUserById = async(req,res)=>{
     const {id} = req.params
     let user;
     try{
-        user = await User.findById({_id:id})
+        user = await User.findById(id)
     }catch(err){
         console.log(err)
     }
