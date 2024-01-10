@@ -80,7 +80,38 @@ const getAllUsers = async (req, res) => {
     }
     res.status(200).json(users);
 }
+const updateProfileDetails=async(req,res)=>{
+    const id=req.params.id 
+    const {  userName, firstName, lastName, profilePicture, tools } = req.body;
+
+    try {
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update the profile details excluding email
+        if (userName !== undefined) user.userName = userName;
+        if (firstName !== undefined) user.firstName = firstName;
+        if (lastName !== undefined) user.lastName = lastName;
+        if (profilePicture !== undefined) user.profilePicture = profilePicture;
+        if (tools !== undefined) user.tools = tools;
+
+        // Save the updated user
+        const updatedUser = await user.save();
+
+        console.log('Profile details updated successfully:', updatedUser);
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error('Error updating profile details:', error.message);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+    
 exports.userSignup = userSignup
 exports.loginUser = loginUser
 exports.getUserById = getUserById
 exports.getAllUsers=getAllUsers
+exports.updateProfileDetails=updateProfileDetails
