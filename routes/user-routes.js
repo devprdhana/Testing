@@ -8,6 +8,6 @@ userRouter.post('/autho',loginUser)
 userRouter.get('/user/:id',getUserById)
 userRouter.get('/allusers',getAllUsers)
 userRouter.post('/users',getUserBySkills)
-userRouter.put('/profile/update/:id',updateProfileDetails)
+userRouter.post('/profile/update/:id',updateProfileDetails)
 
 module.exports = userRouter
