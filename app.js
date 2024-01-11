@@ -11,6 +11,10 @@ const PORT = process.env.PORT
 //DB Connection
 require('./models/db')
 
+//IP config 
+app.enable('trust proxy');
+
+
 // Middleware
 app.use(express.json())
 app.use('/',userRouter)

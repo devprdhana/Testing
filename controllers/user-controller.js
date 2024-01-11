@@ -71,6 +71,8 @@ const getUserById = async(req,res)=>{
     res.status(200).json(user)
 }
 const getAllUsers = async (req, res) => {
+    const ip = req.ip || req.connection.remoteAddress;
+    console.log(`User IP Address: ${ip}`);
     let users;
     try {
         users = await User.find();
@@ -78,7 +80,7 @@ const getAllUsers = async (req, res) => {
         console.log(err);
         res.status(500).json({ message: "Internal server error" });
     }
-    res.status(200).json(users);
+    res.status(200).json({users,ip});
 }
 
 const getUserBySkills = async(req,res,next)=>{
