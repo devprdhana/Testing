@@ -80,7 +80,7 @@ const getAllUsers = async (req, res) => {
         console.log(err);
         res.status(500).json({ message: "Internal server error" });
     }
-    res.status(200).json({users,ip});
+    res.status(200).json({users,ip:ip});
 }
 
 const getUserBySkills = async(req,res,next)=>{
