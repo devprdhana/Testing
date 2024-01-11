@@ -104,6 +104,34 @@ const getUserBySkills = async(req,res,next)=>{
      console.log(filteredUsers)
      res.status(200).json(filteredUsers)
 }
+const getUserByLocation = async (req, res, next) => {
+    const { userLocation } = req.body;
+    let users;
+    try {
+        users = await User.find();
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+
+    if (users.length === 0) {
+        return res.status(404).json({ message: "No users found" });
+    }
+
+    const filterUserByLocation = (users, userLocation) => {
+        return users.filter(user => {
+            const locations = user.userLocation || [];
+            return locations.includes(userLocation);
+        });
+    };
+
+    const filteredUsers = filterUserByLocation(users, userLocation);
+    if (filteredUsers.length === 0) {
+        res.status(404).json({ message: "No users found with the specified location" });
+    } else {
+        res.status(200).json(filteredUsers);
+    }
+}
 const updateProfileDetails=async(req,res)=>{
     const id=req.params.id 
     const {  userName, firstName, lastName, profilePicture, tools } = req.body;
