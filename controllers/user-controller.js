@@ -160,6 +160,22 @@ const updateProfileDetails=async(req,res)=>{
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+const deleteUser = async (req, res, next) => {
+    const id = req.params.id; 
+
+    try {
+        const result = await User.deleteOne({ _id: id });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json({ message: "User deleted successfully" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
 
     
 exports.userSignup = userSignup
@@ -168,3 +184,5 @@ exports.getUserById = getUserById
 exports.getAllUsers=getAllUsers
 exports.getUserBySkills = getUserBySkills
 exports.updateProfileDetails=updateProfileDetails
+exports.getUserByLocation = getUserByLocation
+exports.deleteUser=deleteUser
